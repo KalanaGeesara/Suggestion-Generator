@@ -60,8 +60,9 @@ def is_papili_missing_word(word1, word2):
     for i in word1:
         if i in array:
             array.remove(i)
+
     if len(array) > 0:
-        if array[0] == 'ු' or array[0] == 'ූ' or array[0] == '්' or array[0] == 'ා' or array[0] == 'ි' or array[0] == 'ී':
+        if array[0] == 'ු' or array[0] == 'ූ' or array[0] == '්' or array[0] == 'ා' or array[0] == 'ි' or array[0] == 'ී' or array[0] == 'ී' or array[0] == 'ෑ' or array[0] == 'ැ':
             return True
         else:
             return False
@@ -69,7 +70,37 @@ def is_papili_missing_word(word1, word2):
         return False
 
 
+def split_check(words,word):
+    first_word =[]
+    last_word = []
+    space_suggestion = []
+    for i in words:
+        if i[0] != '' and word != '' and i[0][0] != '' and i[0][0] == word[0] and i[0] in word:
+            first_word.append(i[0])
+        if i[0] != '' and word != '' and i[0][-1] != '' and i[0][-1] == word[-1] and i[0] in word:
+            last_word.append(i[0])
+    for i in first_word:
+        for j in last_word:
+            if i+j==word:
+                s = i + ' '+ j
+                space_suggestion.append(s)
+    return space_suggestion
+
+
+def get_modified_input_word(word):
+    new_sin_word = word
+    if 'ජ්යා' in word:
+        new_sin_word = new_sin_word.replace('ජ්යා', 'ජ්‍යා')
+    if 'බ්රිී' in word:
+        new_sin_word = new_sin_word.replace('බ්රිී', 'බ්‍රි')
+    if 'ද්යා' in word:
+        new_sin_word = new_sin_word.replace('ද්යා', 'ද්‍යා')
+
+    return new_sin_word
+
+
 def show_entry_fields():  # Display box function
+
     print(suggestion_generator(e1.get()))
     msg = messagebox.showinfo("Hello_Python", suggestion_generator(e1.get()))
 
@@ -178,7 +209,7 @@ def get_Bindu_words(word):
 def nana_lala(word):  # function which generates permutations of a given word
     # Get all permutations of length 2 
     # and length 2
-    all = ['න', 'ණ', 'ල', 'ළ', 'ශ', 'ෂ', 'ත', 'ථ', 'බ', 'භ', 'ද', 'ධ', 'ග', 'ඳු', 'දු']
+    all = ['න', 'ණ', 'ල', 'ළ', 'ශ', 'ෂ', 'ත', 'ථ', 'බ', 'භ', 'ද', 'ධ', 'ග', 'ඳු', 'දු', 'ු', 'ූ', 'ට', 'ඨ', 'ච', 'ඡ', 'ජ']
     # simple = ['න', 'ල', 'ශ', 'ත', 'බ', 'ද']
     # capital = ['ණ', 'ළ', 'ෂ', 'ථ', 'භ', 'ධ']
     # indices = []
@@ -203,7 +234,6 @@ def nana_lala(word):  # function which generates permutations of a given word
     #         if lst not in final:
     #             final.append(lst)
     word_lst, final = get_permutations(word, all)
-    print(final)
     for i in final:
         per_word = ['']
         for j in range(len(i)):
@@ -287,17 +317,60 @@ def nana_lala(word):  # function which generates permutations of a given word
                     per_word2 = word_lst.copy()
                 per_word[i[j]] = 'ඟ'
 
-            if word_lst[i[j]] == 'දු':
-                if j <= 0:
-                    per_word = word_lst.copy()
-                    per_word2 = word_lst.copy()
-                per_word[i[j]] = 'ඳු'
+            # if word_lst[i[j]] == 'දු':
+            #     if j <= 0:
+            #         per_word = word_lst.copy()
+            #         per_word2 = word_lst.copy()
+            #     per_word[i[j]] = 'ඳු'
+            #
+            # if word_lst[i[j]] == 'ඳු':
+            #     if j <= 0:
+            #         per_word = word_lst.copy()
+            #         per_word2 = word_lst.copy()
+            #     per_word[i[j]] = 'දු'
 
-            if word_lst[i[j]] == 'ඳු':
+            if word_lst[i[j]] == 'ු':
                 if j <= 0:
                     per_word = word_lst.copy()
                     per_word2 = word_lst.copy()
-                per_word[i[j]] = 'දු'
+                per_word[i[j]] = 'ූ'
+
+            if word_lst[i[j]] == 'ූ':
+                if j <= 0:
+                    per_word = word_lst.copy()
+                    per_word2 = word_lst.copy()
+                per_word[i[j]] = 'ු'
+
+            if word_lst[i[j]] == 'ට':
+                if j <= 0:
+                    per_word = word_lst.copy()
+                    per_word2 = word_lst.copy()
+                per_word[i[j]] = 'ඨ'
+
+            if word_lst[i[j]] == 'ඨ':
+                if j <= 0:
+                    per_word = word_lst.copy()
+                    per_word2 = word_lst.copy()
+                per_word[i[j]] = 'ට'
+
+            if word_lst[i[j]] == 'ඡ':
+                if j <= 0:
+                    per_word = word_lst.copy()
+                    per_word2 = word_lst.copy()
+                per_word[i[j]] = 'ච'
+                per_word2[i[j]] = 'ජ'
+                Dhaword = True
+            if word_lst[i[j]] == 'ච':
+                if j <= 0:
+                    per_word = word_lst.copy()
+                    per_word2 = word_lst.copy()
+                per_word[i[j]] = 'ඡ'
+
+            if word_lst[i[j]] == 'ජ':
+                if j <= 0:
+                    per_word = word_lst.copy()
+                    per_word2 = word_lst.copy()
+                per_word[i[j]] = 'ඡ'
 
         concat = ''
         for k in per_word:
@@ -311,9 +384,10 @@ def nana_lala(word):  # function which generates permutations of a given word
             if hash_dig in hashed_dic:
                 permutated_words.append(concat2)
         hash_dig = get_hash(concat)
-        print(concat)
         if hash_dig in hashed_dic:
             permutated_words.append(concat)
+    print(permutated_words)
+    print("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ")
     return permutated_words
 
 
@@ -321,20 +395,34 @@ model = FastText('sinhala_all2.bin')
 # model = FastText('result/fil9.bin')
 
 hashed_dic = hashing_tagged_copus()
-print(levenshtein('සංක්රවමණ', 'සංක්\u200dරාමණ'))
-print(levenshtein('මුද්ර්ණය', 'මුද්‍රණය'))
-kal = get_hash('කළමනාකාරයේ')
+# print(levenshtein('සංක්රවමණ', 'සංක්\u200dරාමණ'))
+w = 'විද්යාලයේ'
+if 'ද්යා' in 'විද්යාලයේ':
+    w = w.replace('ද්යා', 'ද්‍යා')
+if 'ද්‍යා' in w:
+    print('KKKKKKKKKKKKKKKKKKKKKKK')
+print(levenshtein('පවිත්\u200dරා', 'පවිත්‍රත'))
+sin_word = get_modified_input_word('විද්යාල')
+if sin_word == 'විද්‍යාල':
+    print('FFFFFFFFFFFFFFFFFFF')
+kal = get_hash('විද්\u200dයාලයේ')
 if kal in hashed_dic:
     print(hashed_dic[kal])
-if 'ද්‍ර' in 'මුද්‍රණය':
-    print('MNKN')
-if 'ද්‍ර' in 'මුද්‍රණය':
-    print('MNKmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmN')
+kal = get_hash('විද්යාල')
+if kal in hashed_dic:
+    print(hashed_dic[kal])
+# if 'ද්‍ර' in 'මුද්‍රණය':
+#     print('MNKN')
+# if 'ද්‍ර' in 'මුද්‍රණය':
+#     print('MNKmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmN')
 def suggestion_generator(sinhala_word):
     # model = FastText('sinhala_all2.bin')
     a = datetime.datetime.now()
     #    print(model.similarity('බල්ල', 'බල්ලා'))
-    sin_word = sinhala_word
+    user_sin_word = sinhala_word
+    sin_word = get_modified_input_word(sinhala_word)
+    print(user_sin_word)
+    print(sin_word)
     permutated_nana_lala_sin_word = nana_lala(sin_word)
     permutated_bindu_sin_word = get_Bindu_words(sin_word)
 
@@ -350,9 +438,9 @@ def suggestion_generator(sinhala_word):
     max_frequency = 0
     # print(words)
     suggested_words = []
-
+    space_suggestion = split_check(words,sin_word)
     for i in words:
-
+        print(i)
         punc = [',','.','/','?']
         punctuation_free_word = ''
         for k in i[0]:
@@ -366,7 +454,7 @@ def suggestion_generator(sinhala_word):
         #     max_frequency = hashed_dic[get_hash(punctuation_free_word)]
         #     minnnnn[punctuation_free_word] = max_frequency
         if get_hash(punctuation_free_word) in hashed_dic and minimum_edit_distance <= min:
-            print(minimum_edit_distance)
+            # print(minimum_edit_distance)
             min = minimum_edit_distance
             max_frequency = hashed_dic[get_hash(punctuation_free_word)]
             if min == 1:
@@ -377,8 +465,8 @@ def suggestion_generator(sinhala_word):
                 min3[punctuation_free_word] = max_frequency
             else:            #methna tradeoff ekk tyno minimum_edit_distance eka dadnawada max_frequency ddanawadda kiyla
                 min_other[punctuation_free_word] = max_frequency
-            print("K")
-            print(max_frequency)
+            # print("K")
+            # print(max_frequency)
         if minimum_edit_distance <= 1 or (get_hash(punctuation_free_word) in hashed_dic and minimum_edit_distance == 2 and hashed_dic[get_hash(punctuation_free_word)] > 1400):
             # copy_suggested_words.remove(i)
             suggested_words.append(punctuation_free_word)
@@ -386,14 +474,16 @@ def suggestion_generator(sinhala_word):
             suggested_words.append(punctuation_free_word)
         if 'ද්‍ර' in punctuation_free_word and minimum_edit_distance <= 2 and get_hash(punctuation_free_word) in hashed_dic and hashed_dic[get_hash(punctuation_free_word)] > 100:
             suggested_words.append(punctuation_free_word)
+        if 'බ්‍රි' in punctuation_free_word and minimum_edit_distance <= 2 and get_hash(punctuation_free_word) in hashed_dic and hashed_dic[get_hash(punctuation_free_word)] > 100:
+            suggested_words.append(punctuation_free_word)
     sorted_min1 = sorted(min1.items(), key=lambda kv: kv[1])[::-1]
     sorted_min2 = sorted(min2.items(), key=lambda kv: kv[1])[::-1]
     sorted_min3 = sorted(min3.items(), key=lambda kv: kv[1])[::-1]
     sorted_min_other = sorted(min_other.items(), key=lambda kv: kv[1])[::-1]
     minnnnn = sorted_min1 + sorted_min2 + sorted_min3 + sorted_min_other
-    print(minnnnn)
-    print("KKKKKKKKKKKKKKKKKKKKKKK")
-    print(suggested_words)
+    # print(minnnnn)
+    # print("KKKKKKKKKKKKKKKKKKKKKKK")
+    # print(suggested_words)
     copy_suggested_words = suggested_words.copy()
     priority_suggested_words = {}
     for i in suggested_words:
@@ -426,7 +516,8 @@ def suggestion_generator(sinhala_word):
     ispiliWords = {}
     for i in v1_copy:
         if is_papili_missing_word(sin_word, i[0]):
-            ispiliWords[i[0]] = i[1]
+            print(i[0])
+            ispiliWords[i[0]] = i[1]/10**levenshtein(i[0], sin_word)
             v1.remove(i)
 
     v3 = sorted(ispiliWords.items(), key=lambda kv: kv[1])
@@ -450,10 +541,28 @@ def suggestion_generator(sinhala_word):
     # print(max)
 
     # print(v2)
-    if '්ය්‍ය' in sin_word:
-        new_sin_word = sin_word.replace('්ය්‍ය', '්‍ය')
+    if '්ය්‍ය' in user_sin_word:
+        new_sin_word = user_sin_word.replace('්ය්‍ය', '්‍ය')
         if get_hash(new_sin_word) in hashed_dic:
-            v2.insert(0, new_sin_word)
+            if (new_sin_word, hashed_dic[get_hash(new_sin_word)]) in v2:
+                v2.remove((new_sin_word, hashed_dic[get_hash(new_sin_word)]))
+            if (new_sin_word, hashed_dic[get_hash(new_sin_word)]) in v1:
+                v1.remove((new_sin_word, hashed_dic[get_hash(new_sin_word)]))
+                print(v2)
+            v2.insert(0, (new_sin_word, hashed_dic[get_hash(new_sin_word)]))
+            print(v2)
+    if 'ද්යා' in user_sin_word:
+        new_sin_word = user_sin_word.replace('ද්යා', 'ද්‍යා')
+        if get_hash(new_sin_word) in hashed_dic:
+            print(hashed_dic[get_hash(new_sin_word)])
+
+            if (new_sin_word, hashed_dic[get_hash(new_sin_word)]) in v2:
+                v2.remove((new_sin_word, hashed_dic[get_hash(new_sin_word)]))
+            if (new_sin_word, hashed_dic[get_hash(new_sin_word)]) in v1:
+                v1.remove((new_sin_word, hashed_dic[get_hash(new_sin_word)]))
+                print(v2)
+            v2.insert(0, (new_sin_word, hashed_dic[get_hash(new_sin_word)]))
+            print(v2)
 
     if len(permutated_sin_word) == 1:
         if len(v2) > 1 and v2[0][1] <= max:
@@ -463,9 +572,13 @@ def suggestion_generator(sinhala_word):
            v2.insert(0, (max_word, max))
 
     v = v2 + v1
+
     print(v)
     if len(v) == 0:
         v.append(minnnnn[:5])
+
+    if len(space_suggestion):
+        v = space_suggestion + v
 
     # f = open('test', 'w')
     # for x in v:
@@ -479,7 +592,7 @@ def suggestion_generator(sinhala_word):
 
 # print(suggestion_generator('කකුළ'))
 # a1 = datetime.datetime.now()
-# filepath2 = "extracted_misspelled_news"
+# filepath2 = "test_original"
 # print("FFFFFFF")
 # b = {}
 # with open(filepath2) as fp:
@@ -488,7 +601,7 @@ def suggestion_generator(sinhala_word):
 #         b[x[0]] = suggestion_generator(x[0])
 # print(b)
 #
-# f = open('suggested_words_news', 'w')
+# f = open('tesr_suggested', 'w')
 # for x in b:
 #     f.write(x+" : "+str(b[x])+"\n")
 # f.close()
